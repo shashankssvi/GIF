@@ -120,9 +120,7 @@ function myfun1(){
     if (any=="link2"){
     a.src=link1
     }
-    if (any==null){
-        a.src="home.html";
-    }
+    
     dev = document.getElementById('tab2');
     document.getElementById('div3').style.display="table";
     dev.querySelector("#a1").innerText=Name1[ind];
