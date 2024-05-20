@@ -120,9 +120,13 @@ function myfun1(){
     else if (any=="link2"){
     a.src=link1
     }
+<<<<<<< HEAD
     // else{
     //     window.location.href="home.html";
     // }
+=======
+    
+>>>>>>> af72bd4655cff633160f1f8613f07fd358b3e34f
     dev = document.getElementById('tab2');
     document.getElementById('div3').style.display="table";
     dev.querySelector("#a1").innerText=Name1[ind];
