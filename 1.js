@@ -70,7 +70,7 @@ latlog();
 
 async function myfun() {
     let sce = document.getElementById("search").value.toLowerCase();
-    let dev1 = document.getElementById("div4");
+    let dev1 = document.getElementById("div");
     let arr1 = Name1.filter(function(element) {
         return element.toLowerCase().includes(sce);
     });
@@ -117,12 +117,12 @@ function myfun1(){
     if (any=="link1"){
     a.src=link2;
     }
-    if (any=="link2"){
+    else if (any=="link2"){
     a.src=link1
     }
-    if (any==null){
-        a.src="home.html";
-    }
+    // else{
+    //     window.location.href="home.html";
+    // }
     dev = document.getElementById('tab2');
     document.getElementById('div3').style.display="table";
     dev.querySelector("#a1").innerText=Name1[ind];
@@ -145,6 +145,9 @@ function myfun1(){
 9.3284313,76.6879227
 {/* <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3937.0545248837475!2d76.68534777314791!3d9.328436584233803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOcKwMTknNDIuNCJOIDc2wrA0MScxNi41IkU!5e0!3m2!1sen!2sin!4v1715650641441!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
 {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7874.109170187392!2d76.6879227!3d9.328431250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b063cfc4923b5a7%3A0x720304f454797c45!2sAranmula%2C%20Kerala!5e0!3m2!1sen!2sin!4v1715650851284!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
+
+
+
 function myfun2(){
     sessionStorage.setItem("lnk", "link1");
 }
