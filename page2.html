@@ -18,17 +18,16 @@
         body{
             margin: 0px;
         }
-        /* Style for the product details container */
+
         #product-container {
             margin-top: 30px;
         }
         
-        /* Style for each product */
         .product {
             border: 3mm solid #870707;
             padding: 20px;
             margin: 3mm;
-            display: none; /* Initially hide product details */
+            display: none;
         }
         #div{
             position:absolute;
@@ -134,11 +133,11 @@
     <div id="div"></div>
     <div id="div1">
         <input type="text" id="search" onkeyup="myfun()" placeholder="Search by Name">
-        <select class="sel">
+        <select id="select-option" onchange="getSelectedValue()">
             <option value="Name1">Name</option>
             <option value="Goods">Goods</option>
             <option value="State">State</option>
-        </select>
+          </select>
         <p id="1"></p>
         <div id="div4"></div>
         <div id="div3">

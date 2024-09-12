@@ -3,19 +3,18 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebas
 import { AuthErrorCodes, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId
+  apiKey: "AIzaSyCHZ8VcgJvJaQ4-P0l46tkWN2kbyi6bq4k",
+  authDomain: "gif-p1.firebaseapp.com",
+  projectId: "gif-p1",
+  storageBucket: "gif-p1.appspot.com",
+  messagingSenderId: "1033545220526",
+  appId: "1:1033545220526:web:7bf6b6e9406cbe1d59883f"
 };
 
 const app = initializeApp(firebaseConfig);
   
 const sub = document.getElementById("signup");
 sub.addEventListener("click",function(){
-  alert("hellow");
   const auth = getAuth();
   const email=document.getElementById("email").value;
   const password=document.getElementById("password").value;
@@ -42,7 +41,6 @@ sub1.addEventListener("click",function(){
   const auth = getAuth();
   const email=document.getElementById("email").value;
   const password=document.getElementById("password").value;
-  alert(email)
 signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     const user = userCredential.user;
@@ -52,7 +50,6 @@ signInWithEmailAndPassword(auth, email, password)
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    alert("invalid");
-    // document.getElementById("inv").innerText="invalid email or password";
+    document.getElementById("inv").innerText="invalid email or password";
   });
 })

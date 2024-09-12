@@ -11,6 +11,7 @@ ExpLink=[]
 Image_Link=[]
 About=[]
 var value1=""
+var searchby=Name1;
 
 function calc(lat1,lat2,log1,log2){
     const R = 6371;
@@ -89,11 +90,25 @@ if (navigator.geolocation) {
 
 }
 
+function getSelectedValue() {
+    var selectElement = document.getElementById("select-option");
+    var selectedValue = selectElement.value;
+    if (selectedValue=="Name1"){
+        searchby=Name1;
+        myfun();
+    }
+    else if (selectedValue=="Goods"){
+        searchby=Goods;
+        myfun();
+    }
+    else if (selectedValue=="State"){
+        searchby=State;
+        myfun();
+    }
+    console.log(selectedValue);
+}
+
 latlog();
-var val=document.getElementsByClassName("sel").value;
-// document.getElementById("1").innerHTML=val;
-console.log(val)
-searchby=State;
 async function myfun() {
     let sce = document.getElementById("search").value.toLowerCase();
     let dev1 = document.getElementById("div");
