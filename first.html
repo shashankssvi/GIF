@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THE GI PRODUCT</title>
+    <link rel="stylesheet" href="search.css">
+    <script src="1.js"></script>
+</head>
+
+<body>
+    <script src="1.js" defer></script>
+    <nav class="navbar">
+        <img src="1.png" id="img1">
+        <h1 id="h1">Let's find the product</h1>
+        <input type="text" id="searchName" placeholder="Search the product by name">
+        <input type="text" id="searchState" placeholder="Search the product by state">
+    </nav>
+    <div id="product-container"></div>
+
+    <script>
+        function createProductDiv(product) {
+            return `
+                <div class="product">
+                    <h2>Name: ${product["Name"]}</h2>
+                    <h3 class="application-number">Application Number: ${product["Application No."]}</h3>
+                    <h3 class="goods-type">Goods Type: ${product["Goods(As per Sec 2 (f) of GI Act 1999 )"]}</h3>
+                    <h3 class="state">State: ${product["STATE"]}</h3>
+                    <h3 class="production-origin">Production Origin: ${product["PLACE"]}</h3>
+                    <button type="button" onclick="navdata(${product["Sl.No"]})">Location</button>
+                    <button type="button" onclick="window.location.href='${product["IMAGE LINK"]}'">Image</button>
+                    <button type="button" onclick="window.location.href='${product["ABOUT GI"]}'">Description</button>
+                </div>
+            `;
+        }
+
+        function navdata(a){
+            sessionStorage.setItem('Sl.No', a);
+            window.location.href = 'page1.html';
+        }
+
+        const container = document.getElementById('product-container');
+
+        fetch('4.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(product => {
+                    container.innerHTML += createProductDiv(product);
+                });
+
+                // Get the input field and product details
+                const searchNameInput = document.getElementById('searchName');
+                const searchStateInput = document.getElementById('searchState');
+                const products = document.querySelectorAll('.product');
+                // Event listener for the search input by name
+                searchNameInput.addEventListener('input', function () {
+                    const searchTerm = searchNameInput.value.toLowerCase();
+                    products.forEach(product => {
+                        const productName = product.querySelector('h2').textContent.toLowerCase();
+                        product.style.display = productName.includes(searchTerm) ? 'block' : 'none';
+                    });
+                });
+
+                // Event listener for the search input by state
+                searchStateInput.addEventListener('input', function () {
+                    const searchTerm = searchStateInput.value.toLowerCase();
+                    products.forEach(product => {
+                        const productState = product.querySelector('.state').textContent.toLowerCase();
+                        product.style.display = productState.includes(searchTerm) ? 'block' : 'none';
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>
+
+</body>
+</html>
