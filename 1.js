@@ -1,6 +1,7 @@
 var sino = sessionStorage.getItem('Sl.No');
-console.log(sino)
-        function createProductDiv(product) {
+            console.log(sino)
+function createProductDiv(product) {
+            
             return `
                 <div class="product">
                     <h2>Name: ${product["Name"]}</h2>
@@ -8,7 +9,7 @@ console.log(sino)
                     <h3 class="goods-type">Goods Type: ${product["Goods(As per Sec 2 (f) of GI Act 1999 )"]}</h3>
                     <h3 class="state">State: ${product["STATE"]}</h3>
                     <h3 class="production-origin">Production Origin: ${product["PLACE"]}</h3>
-                    <button type="button" onclick="window.location.href='${product["Exp Link"]}'">Location</button>
+                    <button id="btn1" type="button" onclick='${product["Exp Link"]}'>Location</button>
                     <button type="button" onclick="window.location.href='${product["IMAGE LINK"]}'">Image</button>
                     <button type="button" onclick="window.location.href='${product["ABOUT GI"]}'">Description</button>
                 </div>
@@ -103,6 +104,7 @@ function calc(lat1,lat2,log1,log2){
 
 function myfun1(explink){
     dev = document.getElementById("page1");
+    btn1 = document.getElementById("btn1")
     a=explink.split("@")
     console.log(a);
     list2=a[0].replace("https://www.google.com/maps/place/","")
@@ -113,6 +115,9 @@ function myfun1(explink){
     let link2="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d996492.2751816645!2d47.0793674428846!3d12.677617788649373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e0!4m4!1s0x0%3A0xd8ef8500652e24c0!3m2!1d"+latitude+"!2d"+longitude+"!4m4!1s0x0%3A0x226c2048cd0eb4a8!3m2!1d"+list1[0]+"!2d"+list1[1]+"!5e0!3m2!1sen!2sin!4v1715644823340!5m2!1sen!2sin";
     let link1="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7874.109170187392!2d"+list1[1]+"!3d"+list1[0]+"!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b063cfc4923b5a7%3A0x720304f454797c45!2sTarikere%2C%20Tarikere!5e0!3m2!1sen!2sin!4v1715650086735!5m2!1sen!2sin";
     let any=sessionStorage.getItem("lnk");
+    btn1.onclick = function() {
+        window.location.href = lis1;
+      };
     a=document.getElementById('ifr1');
     a.id = "ifr1";
     a.allowFullscreen = true;
