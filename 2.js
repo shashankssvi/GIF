@@ -1,18 +1,3 @@
-let list1=[]
-let a=""
-let len;
-Name1=[]
-Application=[]
-Goods=[]
-State=[]
-Production=[]
-Location_Link=[]
-ExpLink=[]
-Image_Link=[]
-About=[]
-var value1=""
-var searchby=Name1;
-
 function calc(lat1,lat2,log1,log2){
     const R = 6371;
     const φ1 = lat1 * Math.PI/180;
@@ -26,49 +11,50 @@ function calc(lat1,lat2,log1,log2){
     const d = R * c;
     return d;
 }
+
+function createProductDiv(product) {
+    console.log(product);
+    return `
+        <div class="product">
+            <h2>Name: ${product["Name"]}</h2>
+            <h3 class="application-number">Application Number: ${product["Application No."]}</h3>
+            <h3 class="goods-type">Goods Type: ${product["Goods(As per Sec 2 (f) of GI Act 1999 )"]}</h3>
+            <h3 class="state">State: ${product["STATE"]}</h3>
+            <h3 class="production-origin">Production Origin: ${product["PLACE"]}</h3>
+            <button id="btn1" type="button" onclick='${product["Exp Link"]}'>Location</button>
+            <button type="button" onclick="window.location.href='${product["IMAGE LINK"]}'">Image</button>
+            <button type="button" onclick="window.location.href='${product["ABOUT GI"]}'">Description</button>
+        </div>
+    `;
+}
+
+const container1 = document.getElementById('divv1');
+
 fetch('4.json')
-.then(response => response.json())
-.then(data1 => {
-    len=data1.length;
-    for (let i=0;i<len;i++){
-        Name1.push(String(data1[i]['Name']));
-        Application.push(String(data1[i]["Application Number"]));
-        Goods.push(String(data1[i]["Goods (As per Sec 2 (f) of GIAct 1999 )"]));
-        State.push(String(data1[i]["State"]));
-        Production.push(String(data1[i]["Production Location"]));
-        Location_Link.push(String(data1[i]["Location Link"]));
-        ExpLink.push(String(data1[i]["Exp Link"]));
-        Image_Link.push(String(data1[i]["Image Link"]));
-        About.push(String(data1[i]["About Product"]));
+    .then(response => response.json())
+    .then(data => {
+        dist={}
+    for(let i=0;i<data.length;i++){
+        let l1=myf(String(data[i]["Exp Link"]));
+        let v1=calc(l1[0],latitude,l1[1],longitude);
+        dist[data[i]["Sl.No"]]=v1;
     }
-})
-.then(() => {
-    let dist={};
-    len=ExpLink.length;
-    for(let i=0;i<len;i++){
-        l1=myf(String(ExpLink[i]));
-        v1=calc(l1[0],latitude,l1[1],longitude);
-        dist[i]=v1;
-    }
-    const sortedEntries = Object.entries(dist).sort(([, a], [, b]) => a - b);
-    const sortedKeys = sortedEntries.map(([key]) => parseInt(key));
-    console.log("Sorted Keys:", sortedKeys);
-    dev=document.getElementById("div");
-    var p = document.createElement("p");
-    var button = document.createElement("button");
-    button.textContent=Name1[sortedKeys[0]];
-    
-    button.onclick=function(){
-        value1=button.innerText;
-        myfun1(sortedKeys[0]);
-    };
-    p.appendChild(button);
-    dev.appendChild(p);
-    myfun1(sortedKeys[0]);
-})
-.catch(error => {
-    console.error('Error fetching JSON:', error);
-});
+    console.log(dist)
+        const sortedEntries = Object.entries(dist).sort(([, a], [, b]) => a - b);
+        const sortedKeys = sortedEntries.map(([key]) => parseInt(key));
+        console.log("Sorted Keys:", sortedKeys);
+        let filteredProducts = data.filter(element => element["Sl.No"] == sortedKeys[0]);
+
+        console.log(filteredProducts)
+        filteredProducts.forEach(product => {
+            container1.innerHTML += createProductDiv(product);
+            console.log(product["Exp Link"]);
+            myfun1(product["Exp Link"])
+        });
+
+    })
+    .catch(error => console.error('Error fetching JSON:', error));
+
 
 // console.log(Name1);
 let latitude=sessionStorage.getItem('lat1');
@@ -105,83 +91,47 @@ function getSelectedValue() {
         searchby=State;
         myfun();
     }
-    console.log(selectedValue);
+    // console.log(selectedValue);
 }
 
 latlog();
-async function myfun() {
-    let sce = document.getElementById("search").value.toLowerCase();
-    let dev1 = document.getElementById("div");
-    let arr1 = searchby.filter(function(element) {
-        return element.toLowerCase().includes(sce);
-    });
-    dev1.innerHTML = "";
-    arr1.forEach(function(element) {
-        var p = document.createElement("p");
-        var button = document.createElement("button");
-        button.textContent=element;
-        button.onclick=function(){
-        value1=button.innerText;
-        myfun1();
-    };
-    p.appendChild(button);
-    dev1.appendChild(p);
-    });
-}
-
-document.getElementById("search").addEventListener("input", myfun);
-
-// myfun();
 
 function myf(exp){
     a=String(exp).split("@")
-    console.log(a);
+    // console.log(a);
     list2=a[0].replace("https://www.google.com/maps/place/","")
     list1=a[1].split(",")
     return list1;
 }
 
 
-
-function myfun1(ind){
-    dev = document.getElementById('div3');
-    console.log(ind);
-    console.log(ExpLink[ind]);
-    a=String(ExpLink[ind]).split("@")
+function myfun1(explink){
+    dev = document.getElementById("page1");
+    btn1 = document.getElementById("btn1")
+    a=explink.split("@")
     console.log(a);
     list2=a[0].replace("https://www.google.com/maps/place/","")
-    console.log(Name1[ind]);
     list1=a[1].split(",")
-    console.log(list1);
-
     a=(parseFloat(list1[0])+latitude)/2;
     b=(parseFloat(list1[1])+longitude)/2;
     lis1="https://www.google.com/maps/dir/"+latitude+","+longitude+"/"+list1[0]+","+list1[1]+"/@"+list1[0]+","+list1[1]+",7z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x0:0xd8ef8500652e24c0!2m2!1d74.7849003!2d13.2547441!1m5!1m1!1s0x0:0x226c2048cd0eb4a8!2m2!1d76.6883061!2d9.3285168!3e0?hl=en&entry=ttu";
     let link2="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d996492.2751816645!2d47.0793674428846!3d12.677617788649373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e0!4m4!1s0x0%3A0xd8ef8500652e24c0!3m2!1d"+latitude+"!2d"+longitude+"!4m4!1s0x0%3A0x226c2048cd0eb4a8!3m2!1d"+list1[0]+"!2d"+list1[1]+"!5e0!3m2!1sen!2sin!4v1715644823340!5m2!1sen!2sin";
     let link1="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7874.109170187392!2d"+list1[1]+"!3d"+list1[0]+"!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b063cfc4923b5a7%3A0x720304f454797c45!2sTarikere%2C%20Tarikere!5e0!3m2!1sen!2sin!4v1715650086735!5m2!1sen!2sin";
     let any=sessionStorage.getItem("lnk");
+    btn1.onclick = function() {
+        window.location.href = lis1;
+    };
     a=document.getElementById('ifr1');
     a.id = "ifr1";
     a.allowFullscreen = true;
     a.loading = "lazy";
     a.referrerPolicy = "no-referrer-when-downgrade";
     a.src=link2;
-    dev = document.getElementById('tab2');
-    document.getElementById('div3').style.display="table";
-    dev.querySelector("#a1").innerText=Name1[ind];
-    dev.querySelector("#a2").innerText=Application[ind];
-    dev.querySelector("#a3").innerText=Goods[ind];
-    dev.querySelector("#a4").innerText=State[ind];
-    dev.querySelector("#a5").innerText=Production[ind];
-    dev.querySelector("#a6").href=lis1;
-    dev.querySelector("#a6").innerText="Location";
-    dev.querySelector("#a7").href=Image_Link[ind];
-    dev.querySelector("#a7").innerText="Images";
-    dev.querySelector("#a8").href=About[ind];
-    dev.querySelector("#a8").innerText="About";
-    
     console.log(calc(latitude,list1[0],longitude,list1[1]));
 }
+
+
+
 /* <iframe src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d996492.2751816645!2d47.0793674428846!3d12.677617788649373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e0!4m4!1s0x0%3A0xd8ef8500652e24c0!3m2!1d"+latitude+"!2d"+longitude+"!4m4!1s0x0%3A0x226c2048cd0eb4a8!3m2!1d"+list2[1]+"!2d"+list2[1]+"!5e0!3m2!1sen!2sin!4v1715644823340!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */
 /* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14497.763612920437!2d78.13807015!3d24.711739199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3979918b9ac9c1c1%3A0x6ad66abbe3ddb9fb!2sChanderi%2C%20Madhya%20Pradesh%20473446!5e0!3m2!1sen!2sin!4v1715649789400!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */
 {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7874.109170187392!2d76.6879227!3d9.328431250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b063cfc4923b5a7%3A0x720304f454797c45!5e0!3m2!1sen!2sin!4v1715650086735!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}

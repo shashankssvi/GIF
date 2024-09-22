@@ -117,7 +117,7 @@ function myfun1(explink){
     let any=sessionStorage.getItem("lnk");
     btn1.onclick = function() {
         window.location.href = lis1;
-      };
+    };
     a=document.getElementById('ifr1');
     a.id = "ifr1";
     a.allowFullscreen = true;
