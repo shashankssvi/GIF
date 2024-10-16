@@ -1,3 +1,5 @@
+const { redirect } = require("express/lib/response");
+
 var sino = sessionStorage.getItem('Sl.No');
             console.log(sino)
 function createProductDiv(product) {
@@ -16,17 +18,14 @@ function createProductDiv(product) {
             `;
         }
 
-        // Fetch product data and display the filtered product
         const container1 = document.getElementById('divv1');
 
         fetch('4.json')
             .then(response => response.json())
             .then(data => {
-                // Filter products based on the stored Sl.No
                 const filteredProducts = data.filter(element => element["Sl.No"] === sino);
 
                 console.log(filteredProducts[0])
-                // Append each filtered product to the container
                 filteredProducts.forEach(product => {
                     container1.innerHTML += createProductDiv(product);
                     myfun1(product["Exp Link"])
@@ -37,22 +36,38 @@ function createProductDiv(product) {
 
 let latitude=sessionStorage.getItem('lat1');
 let longitude=sessionStorage.getItem('lon1');
-function latlog(){
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-    sessionStorage.setItem('lat1',latitude);
-    sessionStorage.setItem('lon1',longitude);
-    console.log(sessionStorage.getItem('lon1'));
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-});
-} else {
-    alert("Geolocation is not supported by this browser.")
-    console.log("Geolocation is not supported by this browser.");
-}
+function latlog() {
+    navigator.permissions.query({ name: "geolocation" }).then(function(result) {
+        if (result.state === "denied") {
+            alert("Geolocation access has been denied.");
+            console.log("Geolocation access denied.");
+            return;
+        }
+        else if(result.state==="granted"){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        sessionStorage.setItem('lat1', latitude);
+                        sessionStorage.setItem('lon1', longitude);
+                        window.location.href = "page2.html";
+                    },
+                    function(error) {
+                        console.error("Error getting geolocation: ", error);
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+    }).catch(function(err) {
+        console.error("Error querying permissions: ", err);
+    });
 
 }
+
 
 latlog();
 let sc;

@@ -21,9 +21,9 @@ function createProductDiv(product) {
             <h3 class="goods-type">Goods Type: ${product["Goods(As per Sec 2 (f) of GI Act 1999 )"]}</h3>
             <h3 class="state">State: ${product["STATE"]}</h3>
             <h3 class="production-origin">Production Origin: ${product["PLACE"]}</h3>
-            <button id="btn1" type="button" onclick='${product["Exp Link"]}'>Location</button>
-            <button type="button" onclick="window.location.href='${product["IMAGE LINK"]}'">Image</button>
-            <button type="button" onclick="window.location.href='${product["ABOUT GI"]}'">Description</button>
+            <button class="btn btn-primary" id="btn1" type="button" onclick='${product["Exp Link"]}'>Location</button>
+            <button class="btn btn-primary" type="button" onclick="window.location.href='${product["IMAGE LINK"]}'">Image</button>
+            <button class="btn btn-primary" type="button" onclick="window.location.href='${product["ABOUT GI"]}'">Description</button>
         </div>
     `;
 }
